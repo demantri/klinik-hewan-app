@@ -30,6 +30,7 @@ class Database extends Config
         'username' => 'root',
         'password' => '',
         'database' => 'db_klinik_hewan',
+        // 'database' => 'backup_klinik_hewan',
         'DBDriver' => 'MySQLi',
         'DBPrefix' => '',
         'pConnect' => false,

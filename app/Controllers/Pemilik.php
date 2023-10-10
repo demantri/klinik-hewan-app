@@ -144,4 +144,17 @@ class Pemilik extends BaseController
 
         return redirect()->to(base_url('masterdata/pemilik'));
     }
+
+    public function confirm($id)
+    {
+        $this->db->table('pemilik')
+            ->where('id_pemilik', $id)
+            ->update([
+                'is_register' => 1
+            ]);
+
+        session()->setFlashdata("success", "Pemilik berhasil dikonfirmasi!");
+
+        return redirect()->to(base_url('masterdata/pemilik'));
+    }
 }

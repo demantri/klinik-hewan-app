@@ -34,6 +34,19 @@
     </script>
 </head>
     <body>
+        <?php
+            $username = session()->get('username');
+            $db = db_connect();
+            $profile = $db->query("select 
+                a.*, 
+                b.nama_lengkap, 
+                b.img, 
+                b.is_register
+            from users a
+            join pemilik b on a.username = b.username
+            where a.username = '$username'")->getRow();
+            // dd($profile);
+        ?>
         <div id="app">
             <div class="main-wrapper main-wrapper-1">
             <div class="navbar-bg"></div>
@@ -46,7 +59,7 @@
                 </form>
                 <ul class="navbar-nav navbar-right">
                     <li class="dropdown"><a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle nav-link-lg nav-link-user">
-                        <img alt="image" src="assets/img/avatar/avatar-1.png" class="rounded-circle mr-1">
+                        <img alt="image" src="<?= $profile == null ? base_url('assets/img/avatar/avatar-1.png') : base_url('uploads/image/' . $profile->img ) ?>" class="rounded-circle mr-1">
                         <div class="d-sm-none d-lg-inline-block">Hi, <?= session()->get('username') ?></div></a>
                         <div class="dropdown-menu dropdown-menu-right">
                             <a href="<?= base_url('logout')?>" class="dropdown-item has-icon text-danger">
@@ -122,8 +135,17 @@
                 $(".notif").slideUp(500);
             });
 
+            function numerFormat(x) {
+                return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+            }
+
             $('.telp').mask('62000000000000');
+
             $('.money').mask('000.000.000.000.000', {reverse: true});
+
+            $(document).on("input", ".numeric", function() {
+                this.value = this.value.replace(/\D/g,'');
+            });
         </script>
         <?= $this->renderSection('script');?>
         

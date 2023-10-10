@@ -16,15 +16,23 @@ class RekamMedis extends BaseController
         $this->db = db_connect();
     }
 
-    public function add()
+    // protected $code;
+
+    // public function __construct(GenerateCode $code) {
+    //     $this->code = $code;
+    // }
+
+    public function add($kode_booking = '')
     {
         $kode = $this->code->createIDRM();
-        $pemilik = $this->model->getData('pemilik');
+        // $pemilik = $this->model->getData('pemilik');
+        $pemilik = $this->db->query("select * from pemilik where is_register = 1")->getResult();
         $dokter = $this->model->getData('dokter');
         $data = [
             'kode' => $kode,
             'pemilik' => $pemilik,
             'dokter' => $dokter,
+            'kode_booking' => $kode_booking
         ];
         return view('rekam-medis/add', $data);
     }
@@ -63,6 +71,16 @@ class RekamMedis extends BaseController
         // $mata_telinga = $this->request->getVar();
         $data = $this->request->getVar();
 
+        $kode_booking = $data['kode_booking'];
+        if ($kode_booking !== '') {
+            // update status booking
+            $this->db->table('booking')
+                ->where('kode_booking', $kode_booking)
+                ->update([
+                    'status' => 1
+                ]);
+        }
+
         $insert = [
             'id_rekam_medis' => $data['id_rekam_medis'],
             'tanggal' => $data['tanggal'],
@@ -87,6 +105,7 @@ class RekamMedis extends BaseController
             'jasa_dokter' => $data['jasa_dokter'],
             'total_transaksi' => $data['total_transaksi'],
             'grand_total' => $data['grandtotal'],
+            'kode_booking' => $kode_booking,
         ];
 
         $this->db->table('rekam_medis')

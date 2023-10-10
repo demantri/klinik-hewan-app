@@ -26,6 +26,23 @@ class GenerateCode extends Model
         return $kd;
     }
 
+    public function kode_booking()
+    {
+        $query = $this->db->query("select right(kode_booking, 3) as kode from booking order by id desc limit 1");
+        
+        if (count($query->getResult()) <> 0 ) { // cek kondisi, kalau hasil data nya tidak = 0.
+            $data = $query->getRow();
+            $kode = intval($data->kode) + 1;
+        } else {
+            $kode = 1;
+        }
+
+        $date = date('Ymd');
+        $kodemax = str_pad($kode, 3, "0", STR_PAD_LEFT);
+        $kd = "B-". $date . $kodemax;
+        return $kd;
+    }
+
     public function createIDPendaftaran()
     {
         $query = $this->db->query("select right(id_pendaftaran, 4) as kode from pendaftaran order by id desc limit 1");
@@ -71,6 +88,22 @@ class GenerateCode extends Model
 
         $kodemax = str_pad($kode, 3, "0", STR_PAD_LEFT);
         $kd = "D-" . $kodemax;
+        return $kd;
+    }
+
+    public function createIDObat()
+    {
+        $query = $this->db->query("select right(id_obat, 3) as kode from obat order by id desc limit 1");
+        
+        if (count($query->getResult()) <> 0 ) { // cek kondisi, kalau hasil data nya tidak = 0.
+            $data = $query->getRow();
+            $kode = intval($data->kode) + 1;
+        } else {
+            $kode = 1;
+        }
+
+        $kodemax = str_pad($kode, 3, "0", STR_PAD_LEFT);
+        $kd = "O-" . $kodemax;
         return $kd;
     }
 }

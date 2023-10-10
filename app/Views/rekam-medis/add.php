@@ -28,16 +28,26 @@ Input Rekam Medis
                                     <label>Tanggal</label>
                                     <input type="date" name="tanggal" id="tanggal" class="form-control" value="<?= date('Y-m-d')?>">
                                 </div>
+                                <div class="form-group">
+                                    <label>Kode Booking</label>
+                                    <input type="text" name="kode_booking" id="kode_booking" class="form-control" value="<?= $kode_booking ?>" readonly>
+                                </div>
+                                <hr>
                                 <div class="row">
                                     <div class="col">
                                         <div class="form-group">
                                             <label>Pemilik</label>
-                                            <select name="pemilik" id="pemilik" class="form-control" required>
-                                                <option value="" selected disabled>Pilih</option>
-                                                <?php foreach ($pemilik as $row) { ?>
-                                                <option value="<?= $row->id_pemilik ?>"><?= $row->nama_lengkap ?></option>
-                                                <?php } ?>
-                                            </select>
+                                            <?php if ($kode_booking != '') { ?>
+                                                <input type="hidden" class="form-control" id="pemilik" name="pemilik" readonly>
+                                                <input type="text" class="form-control" id="nama_pemilik" name="nama_pemilik" readonly>
+                                            <?php } else { ?>
+                                                <select name="pemilik" id="pemilik" class="form-control pemilik" required>
+                                                    <option value="" selected>Pilih</option>
+                                                    <?php foreach ($pemilik as $row) { ?>
+                                                    <option value="<?= $row->id_pemilik ?>"><?= $row->nama_lengkap ?></option>
+                                                    <?php } ?>
+                                                </select>
+                                            <?php } ?>
                                         </div>
                                     </div>
                                     <div class="col">
@@ -220,6 +230,7 @@ Input Rekam Medis
         let params = {
             id_rekam_medis : $("#id_rekam_medis").val(),
             tanggal : $("#tanggal").val(),
+            kode_booking : $("#kode_booking").val(),
             pemilik : $("#pemilik").val(),
             peliharaan : $("#peliharaan").val(),
             dokter : $("#dokter").val(),
@@ -254,7 +265,8 @@ Input Rekam Medis
                     text: response.msg,
                     icon: 'success',
                 }).then(function() {
-                    location.reload();
+                    // location.reload();
+                    window.location.href = '<?= base_url('rekam-medis/view') ?>';
                 })
             }  
         });
@@ -350,15 +362,16 @@ Input Rekam Medis
         $("#table").DataTable();
 
         $("#pemilik").on("change", function() {
-            let value = $(this).val();
-            console.log(value);
+            // let value = $("#pemilik").val();
+            // console.log(value); // untuk debuging, kalau di php nama print_r($variabel);exit;
             $.ajax({
                 url: '<?= base_url('rekam-medis/get-peliharaan')?>',
-                type: 'post',
+                type: 'post', // untuk ngirim data
                 data: {
-                    id_pemilik : value
+                    id_pemilik : $("#pemilik").val(),
                 },
-                success: function(response) {
+                success: function(response) { // callback
+                    // console.log(response);
                     let data = response;
                     let option = '';
                     if (data.length > 0) {
@@ -366,9 +379,11 @@ Input Rekam Medis
                             option += `<option value="${data[i].nama_peliharaan}">${data[i].nama_peliharaan}</option>`;
                         }
                         $("#peliharaan").html(option);
+                    } else {
+                        $("#peliharaan").html(option);
                     }
                 }
-            })
+            });
         });
 
         $("#myform").on("submit", function(e) {
@@ -393,7 +408,22 @@ Input Rekam Medis
                     prosesSimpanPrint();
                 }
             });
-        })
+        });
+        
+        let kode_booking = $("#kode_booking").val();
+        if (kode_booking !== '') {
+            $.ajax({
+                url: '<?= base_url('find-booking')?>',
+                type: 'post',
+                data: {
+                    kode_booking : kode_booking
+                },
+                success: function(response) {
+                    $("#nama_pemilik").val(response.nama_lengkap);
+                    $("#pemilik").val(response.id_pemilik).trigger('change');
+                }
+            })
+        }
     });
 </script>
 <?= $this->endSection();?>

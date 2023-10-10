@@ -37,7 +37,7 @@ Pemilik
                         <tr>
                             <td>
                                 <div class="d-flex">
-                                    <button class="btn btn-light btn-edit mr-2" 
+                                    <button class="btn btn-light btn-sm btn-edit" 
                                     data-toggle="modal" 
                                     data-target="#edit"
                                     data-id_pemilik="<?= $item->id_pemilik?>"
@@ -46,8 +46,16 @@ Pemilik
                                     data-alamat="<?= $item->alamat?>"
                                     ><i class="fa-solid fa-pencil"></i></button>
 
-                                    <a href="<?= base_url('masterdata/pemilik/hapus/' . $item->id_pemilik)?>" onclick="return confirm('Apakah anda yakin?')" class="btn btn-outline-danger"
-                                    ><i class="fa-solid fa-trash"></i></a>
+                                    <a href="<?= base_url('masterdata/pemilik/hapus/' . $item->id_pemilik)?>" onclick="return confirm('Apakah anda yakin?')" class="btn btn-sm btn-outline-danger mr-2 ml-2"
+                                    >
+                                        <i class="fa-solid fa-trash"></i>
+                                    </a>
+
+                                    <?php if ($item->is_register == 0) { ?>
+                                    <a href="<?= base_url('masterdata/pemilik/confirm/' . $item->id_pemilik)?>" class="btn btn-sm btn-success" onclick="return confirm('Konfirmasi pemilik?')">
+                                        <i class="fas fa-check"></i>
+                                    </a>
+                                    <?php } ?>
                                 </div>
                             </td>
                             <td><?= $no++ ?></td>

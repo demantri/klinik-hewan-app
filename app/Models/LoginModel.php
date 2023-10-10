@@ -15,6 +15,14 @@ class LoginModel extends Model
         $data = $this->db->table('users')
             ->where('username', $username)
             ->get()->getRow();
+        // $data = $this->db->query("select 
+        //     a.*, 
+        //     b.nama_lengkap, 
+        //     b.img, 
+        //     b.is_register
+        // from users a
+        // join pemilik b on a.username = b.username
+        // where a.username = '$username'")->getRow();
         return $data; 
     }
 }

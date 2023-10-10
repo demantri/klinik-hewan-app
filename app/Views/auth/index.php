@@ -52,6 +52,10 @@
                             <div class="alert alert-warning notif" role="alert"><?= session()->getFlashdata('warning') ?></div>
                         <?php endif; ?>
 
+                        <?php if (session()->getFlashdata('success')) : ?>
+                            <div class="alert alert-success notif" role="alert"><?= session()->getFlashdata('success') ?></div>
+                        <?php endif; ?>
+
                         <form method="POST" action="<?= base_url('doLogin') ?>" class="needs-validation" novalidate="">
                         <div class="form-group">
                             <label for="username">Username</label>
@@ -65,7 +69,7 @@
                             <div class="d-block">
                                 <label for="password" class="control-label">Password</label>
                                 <div class="float-right">
-                                    <a href="auth-forgot-password.html" class="text-small">
+                                    <a href="<?= base_url('forgot-password')?>" class="text-small">
                                     Forgot Password?
                                     </a>
                                 </div>
@@ -86,7 +90,7 @@
                     </div>
                     </div>
                     <div class="mt-5 text-muted text-center">
-                    Don't have an account? <a href="auth-register.html">Create One</a>
+                    Don't have an account? <a href="<?= base_url('register')?>">Create One</a>
                     </div>
                     <div class="simple-footer">
                     Copyright &copy; Stisla 2018

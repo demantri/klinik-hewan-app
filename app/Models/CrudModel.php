@@ -39,7 +39,8 @@ class CrudModel extends Model
 
     public function getDataPendaftaran()
     {
-        $data = $this->db->query("select a.*, b.nama_lengkap as nama_pemilik from pendaftaran a join pemilik b on a.id_pemilik = b.id_pemilik");
+        $data = $this->db->query("select a.*, b.nama_lengkap as nama_pemilik 
+        from pendaftaran a join pemilik b on a.id_pemilik = b.id_pemilik");
         return $data->getResult();
     }
 
