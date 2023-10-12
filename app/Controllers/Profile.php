@@ -18,20 +18,22 @@ class Profile extends BaseController
     public function index()
     {
         $username = session()->get('username');
+        $id_user = session()->get('id_user');
         
         $profile = $this->db->query("SELECT 
             a.id,
             a.username,
             a.role_name,
             b.id_pemilik,
+            b.id_user,
             b.nama_lengkap,
             b.no_telp,
             b.alamat,
             b.created_at,
             b.img
         FROM users a
-        JOIN pemilik b ON a.username = b.username
-        WHERE a.username = '$username';")->getRow();
+        JOIN pemilik b ON a.id_user = b.id_user
+        WHERE a.id_user = '$id_user';")->getRow();
 
         $data = [
             'profile' => $profile

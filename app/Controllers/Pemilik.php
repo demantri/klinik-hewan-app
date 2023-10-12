@@ -17,10 +17,16 @@ class Pemilik extends BaseController
 
     public function index()
     {
-        $pemilik = $this->model->getData('pemilik');
+        // $pemilik = $this->model->getData('pemilik');
+        $pemilik = $this->db->query("select a.*, b.role_name
+        from pemilik a 
+        join users b on a.id_user = b.id_user
+        where role_name = 'customer';")->getResult();
         $kode = $this->code->createIDPemilik();
+        $id_user = $this->code->createIDUser();
         // print_r($kode);exit;
         return view('masterdata/pemilik/index', [
+            'id_user' => $id_user,
             'kode' => $kode,
             'pemilik' => $pemilik,
             'validation' => $this->validator,
@@ -30,6 +36,21 @@ class Pemilik extends BaseController
     public function simpan()
     {
         $valid = $this->validate([
+            'username' => [
+                'label' => 'Username',
+                'rules' => 'required|is_unique[users.username]',
+                'errors' => [
+                    'required' => '{field} tidak boleh kosong.',
+                    'is_unique' => '{field} sudah ada sebelumnya.',
+                ]
+            ],
+            'password' => [
+                'label' => 'Password',
+                'rules' => 'required',
+                'errors' => [
+                    'required' => '{field} tidak boleh kosong.',
+                ]
+            ],
             'nama' => [
                 'label' => 'Nama pemilik',
                 'rules' => 'required',
@@ -39,7 +60,7 @@ class Pemilik extends BaseController
             ],
             'no_telp' => [
                 'label' => 'No. telp',
-                'rules' => 'required|is_unique[pemilik.no_telp,id]',
+                'rules' => 'required|is_unique[pemilik.no_telp]',
                 'errors' => [
                     'required' => '{field} tidak boleh kosong.',
                     'is_unique' => '{field} sudah terdaftar sebelumnya.',
@@ -60,6 +81,7 @@ class Pemilik extends BaseController
             $data['kode'] = $this->code->createIDPemilik();
             echo view('masterdata/pemilik/index', $data);
         } else {
+            $id_user = $this->request->getVar('id_user');
             $id_pemilik = $this->request->getVar('id_pemilik');
             $nama = $this->request->getVar('nama');
             $no_telp = str_replace('-', '', $this->request->getVar('no_telp'));
@@ -67,12 +89,25 @@ class Pemilik extends BaseController
     
             $data = [
                 'id_pemilik' => $id_pemilik,
+                'id_user' => $id_user,
                 'nama_lengkap' => $nama,
                 'no_telp' => $no_telp,
                 'alamat' => $alamat,
+                'is_register' => 1,
             ];
             $this->model->insertData($data, 'pemilik');
-            
+
+            $username = $this->request->getVar('username');
+            $password = $this->request->getVar('password');
+            $role_name = 'customer';
+            $users = [
+                'id_user' => $id_user,
+                'username' => $username,
+                'password' => password_hash($password, PASSWORD_DEFAULT),
+                'role_name' => $role_name,
+            ];
+            $this->model->insertData($users, 'users');
+
             session()->setFlashdata("success", "Data berhasil disimpan.");
     
             return redirect()->to(base_url('masterdata/pemilik'));
@@ -81,6 +116,7 @@ class Pemilik extends BaseController
 
     public function update()
     {
+        $id = $this->request->getVar('id');
         $valid = $this->validate([
             'nama_edit' => [
                 'label' => 'Nama pemilik',
@@ -89,14 +125,16 @@ class Pemilik extends BaseController
                     'required' => '{field} tidak boleh kosong.',
                 ]
             ],
-            // 'no_telp_edit' => [
-            //     'label' => 'No. telp',
-            //     'rules' => 'required|is_unique[pemilik.no_telp,id]',
-            //     'errors' => [
-            //         'required' => '{field} tidak boleh kosong.',
-            //         'is_unique' => '{field} sudah terdaftar sebelumnya.',
-            //     ]
-            // ],
+            'no_telp_edit' => [
+                'label' => 'No telp',
+                'rules' => 'required|max_length[15]|is_unique[pemilik.no_telp,id,'.$id.']',
+                'errors' => [
+                    'required' => '{field} tidak boleh kosong',
+                    // 'min_length' => '{field} minimal 4 karakter',
+                    'max_length' => '{field} maksimal 15 karakter',
+                    'is_unique' => '{field} sudah ada sebelumnya',
+                ],
+            ],
             'alamat_edit' => [
                 'label' => 'Alamat',
                 'rules' => 'required',

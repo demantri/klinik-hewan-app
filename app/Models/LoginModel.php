@@ -14,7 +14,8 @@ class LoginModel extends Model
     {
         $data = $this->db->table('users')
             ->where('username', $username)
-            ->get()->getRow();
+            ->get()
+            ->getRow();
         // $data = $this->db->query("select 
         //     a.*, 
         //     b.nama_lengkap, 

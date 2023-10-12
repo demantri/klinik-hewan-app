@@ -36,6 +36,8 @@
     <body>
         <?php
             $username = session()->get('username');
+            $id_user = session()->get('id_user');
+
             $db = db_connect();
             $profile = $db->query("select 
                 a.*, 
@@ -43,8 +45,8 @@
                 b.img, 
                 b.is_register
             from users a
-            join pemilik b on a.username = b.username
-            where a.username = '$username'")->getRow();
+            join pemilik b on a.id_user = b.id_user
+            where a.id_user = '$id_user'")->getRow();
             // dd($profile);
         ?>
         <div id="app">
@@ -59,7 +61,7 @@
                 </form>
                 <ul class="navbar-nav navbar-right">
                     <li class="dropdown"><a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle nav-link-lg nav-link-user">
-                        <img alt="image" src="<?= $profile == null ? base_url('assets/img/avatar/avatar-1.png') : base_url('uploads/image/' . $profile->img ) ?>" class="rounded-circle mr-1">
+                        <img alt="image" src="<?= $profile->img == null ? base_url('assets/img/avatar/avatar-1.png') : base_url('uploads/image/' . $profile->img ) ?>" class="rounded-circle mr-1">
                         <div class="d-sm-none d-lg-inline-block">Hi, <?= session()->get('username') ?></div></a>
                         <div class="dropdown-menu dropdown-menu-right">
                             <a href="<?= base_url('logout')?>" class="dropdown-item has-icon text-danger">
@@ -129,7 +131,8 @@
         <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap4.min.js"></script>
         <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js"></script>
+        
         <script>
             $(".notif").fadeTo(2000, 500).slideUp(500, function(){
                 $(".notif").slideUp(500);

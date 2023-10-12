@@ -71,6 +71,7 @@ $routes->group('masterdata', ['filter' => 'auth'], function($routes) {
     // masterdata dokter
     $routes->get('dokter', 'Dokter::index');
     $routes->add('dokter/simpan', 'Dokter::simpan');
+    // $routes->add('dokter/edit/(:any)', 'Dokter::edit/$1');
     $routes->add('dokter/update', 'Dokter::update');
     $routes->add('dokter/hapus/(:any)', 'Dokter::hapus/$1');
 

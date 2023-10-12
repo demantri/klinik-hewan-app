@@ -37,6 +37,7 @@ class Login extends BaseController
             if($verify_pass){
                 $ses_data = [
                     'id' => $data->id,
+                    'id_user' => $data->id_user,
                     'role_name' => $data->role_name,
                     'username' => $data->username,
                     // 'nama_lengkap' => $data->nama_lengkap,
@@ -136,8 +137,10 @@ class Login extends BaseController
     public function form_register()
     {
         $kode = $this->code->createIDPemilik();
+        $id_user = $this->code->createIDUser();
         return view('auth/register', [
-            'kode' => $kode
+            'id_user' => $id_user,
+            'kode' => $kode,
         ]);
     }
 
@@ -209,6 +212,7 @@ class Login extends BaseController
             // insert pemilik
             $pemilik = [
                 'id_pemilik' => $data['id_pemilik'],
+                'id_user' => $data['id_user'],
                 'nama_lengkap' => $data['nama_lengkap'],
                 'no_telp' => $data['no_telp'],
                 'alamat' => $data['alamat'],
@@ -217,6 +221,7 @@ class Login extends BaseController
 
             // insert users
             $users = [
+                'id_user' => $data['id_user'],
                 'username' => $data['username'],
                 'password' => password_hash($data['password'], PASSWORD_DEFAULT),
                 'role_name' => 'customer',

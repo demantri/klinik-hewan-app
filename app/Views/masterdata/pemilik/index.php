@@ -15,7 +15,7 @@ Pemilik
 <?php endif; ?>
 
 <div class="row">
-    <div class="col-sm-8">
+    <div class="col-sm-7">
         <div class="card card-primary">
             <div class="card-body">
                 <table class="table table-bordered" id="table" style="width: 100%;">
@@ -40,6 +40,7 @@ Pemilik
                                     <button class="btn btn-light btn-sm btn-edit" 
                                     data-toggle="modal" 
                                     data-target="#edit"
+                                    data-id="<?= $item->id?>"
                                     data-id_pemilik="<?= $item->id_pemilik?>"
                                     data-nama_lengkap="<?= $item->nama_lengkap?>"
                                     data-no_telp="<?= $item->no_telp?>"
@@ -71,16 +72,41 @@ Pemilik
             </div>
         </div>
     </div>
-    <div class="col-sm-4">
+    <div class="col-sm-5">
         <div class="card card-primary">
             <form action="<?= base_url('masterdata/pemilik/simpan')?>" method="post">
                 <div class="card-header">
                     <h4>Form Tambah</h4>
                 </div>
                 <div class="card-body">
+                    <input type="hidden" value="<?= $id_user?>" name="id_user">
                     <div class="form-group">
                         <label>ID Pemilik</label>
                         <input type="text" name="id_pemilik" class="form-control" value="<?= $kode ?>" readonly>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label>Username</label>
+                                <input type="text" name="username" class="form-control <?= $validation->hasError('username') ? 'is-invalid' : ''?>" placeholder="Masukan username" value="<?= set_value('username') ?>">
+                                <?php if ($validation->getError('username')) { ?>
+                                    <div class="invalid-feedback">
+                                        <?= $validation->getError('username'); ?>
+                                    </div>
+                                <?php } ?>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label>Password</label>
+                                <input type="password" name="password" class="form-control <?= $validation->hasError('password') ? 'is-invalid' : ''?>" placeholder="Masukan password" value="<?= set_value('password') ?>">
+                                <?php if ($validation->getError('password')) { ?>
+                                    <div class="invalid-feedback">
+                                        <?= $validation->getError('password'); ?>
+                                    </div>
+                                <?php } ?>
+                            </div>
+                        </div>
                     </div>
                     <div class="form-group">
                         <label>Nama Pemilik</label>
@@ -127,11 +153,13 @@ Pemilik
 <script>
 
     $(document).on("click", ".btn-edit", function() {
+        let id = $(this).data("id");
         let id_pemilik = $(this).data("id_pemilik");
         let nama_lengkap = $(this).data("nama_lengkap");
         let no_telp = $(this).data("no_telp");
         let alamat = $(this).data("alamat");
 
+        $("#id_edit").val(id);
         $("#id_pemilik_edit").val(id_pemilik);
         $("#nama_edit").val(nama_lengkap);
         $("#no_telp_edit").val(no_telp);

@@ -42,8 +42,8 @@
 
                             <div class="card-body">
                                 <form action="<?= base_url('register') ?>" method="post">
+                                    <input type="hidden" value="<?= $id_user?>"  name="id_user">
                                     <input type="hidden" value="<?= $kode ?>" name="id_pemilik" id="id_pemilik">
-                                    
                                     <div class="row">
                                         <div class="form-group col-6">
                                             <label for="nama_lengkap">Nama Lengkap</label>

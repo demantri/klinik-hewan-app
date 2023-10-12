@@ -10,6 +10,7 @@
             </div>
             <form action="<?= base_url('masterdata/pemilik/update')?>" method="post">
                 <div class="modal-body">
+                    <input type="text" id="id_edit" name="id">
                     <div class="form-group">
                         <label>ID Pemilik</label>
                         <input type="text" name="id_pemilik_edit" id="id_pemilik_edit" class="form-control" value="<?= $kode ?>" readonly>
