@@ -28,7 +28,7 @@ class Pendaftaran extends BaseController
         $kode = $this->code->createIDPendaftaran();
         $spesies = $this->model->getSpesies();
         $ras = $this->model->getRas();
-        $pemilik = $this->model->getData('pemilik');
+        $pemilik = $this->model->getDataAkun('customer');
         $data = [
             'kode' => $kode,
             'spesies' => $spesies,

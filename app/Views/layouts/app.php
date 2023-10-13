@@ -37,15 +37,11 @@
         <?php
             $username = session()->get('username');
             $id_user = session()->get('id_user');
-
+            // dd($id_user);
             $db = db_connect();
             $profile = $db->query("select 
-                a.*, 
-                b.nama_lengkap, 
-                b.img, 
-                b.is_register
+                a.*
             from users a
-            join pemilik b on a.id_user = b.id_user
             where a.id_user = '$id_user'")->getRow();
             // dd($profile);
         ?>

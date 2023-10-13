@@ -7,12 +7,14 @@ use TCPDF;
 use App\Models\CrudModel;
 use App\Models\GenerateCode;
 use App\Controllers\BaseController;
+use App\Models\TransaksiModel;
 
 class RekamMedis extends BaseController
 {
     public function __construct() {
         $this->code = new GenerateCode;
         $this->model = new CrudModel;
+        $this->trx = new TransaksiModel;
         $this->db = db_connect();
     }
 
@@ -25,9 +27,10 @@ class RekamMedis extends BaseController
     public function add($kode_booking = '')
     {
         $kode = $this->code->createIDRM();
-        // $pemilik = $this->model->getData('pemilik');
-        $pemilik = $this->db->query("select * from pemilik where is_register = 1")->getResult();
+        // $pemilik = $this->db->query("select * from pemilik where is_register = 1")->getResult();
+        $pemilik = $this->model->getDataAkun('customer');
         $dokter = $this->model->getData('dokter');
+        
         $data = [
             'kode' => $kode,
             'pemilik' => $pemilik,
@@ -107,9 +110,24 @@ class RekamMedis extends BaseController
             'grand_total' => $data['grandtotal'],
             'kode_booking' => $kode_booking,
         ];
-
         $this->db->table('rekam_medis')
             ->insert($insert);
+
+        // insert table transaksi utk pembayaran
+        $id_trx = $this->code->createTrxCode();
+        
+        $dataTrx = [
+            'kode_rm' => $data['id_rekam_medis'],
+            'id_trx' => $id_trx,
+            'tgl_trx' => $data['tanggal'],
+            'id_customer' => $data['pemilik'],
+            'id_dokter' => $data['dokter'],
+            'jasa_dokter' => $data['jasa_dokter'],
+            'total_transaksi' => $data['total_transaksi'],
+            'grand_total' => $data['grandtotal'],
+            // 'status' => $data['id_rekam_medis'],
+        ];
+        $this->trx->createTrx($dataTrx);
 
         return $this->response->setJSON([
             'msg' => 'Data berhasil disimpan'

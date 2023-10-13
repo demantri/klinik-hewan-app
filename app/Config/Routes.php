@@ -103,6 +103,9 @@ $routes->group('rekam-medis', ['filter' => 'auth'], function($routes) {
     $routes->add('simpan', 'RekamMedis::simpan');
     $routes->add('cetak', 'RekamMedis::cetak');
     $routes->add('getDetail', 'RekamMedis::getDetail');
+
+    $routes->get('pembayaran', 'Transaksi::index');
+    $routes->add('pembayaran/bayar', 'Transaksi::bayar');
 });
 
 $routes->group('setting', ['filter' => 'auth'], function($routes) {

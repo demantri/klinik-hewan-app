@@ -17,14 +17,9 @@ class Pemilik extends BaseController
 
     public function index()
     {
-        // $pemilik = $this->model->getData('pemilik');
-        $pemilik = $this->db->query("select a.*, b.role_name
-        from pemilik a 
-        join users b on a.id_user = b.id_user
-        where role_name = 'customer';")->getResult();
+        $pemilik = $this->model->getDataAkun('customer');
         $kode = $this->code->createIDPemilik();
         $id_user = $this->code->createIDUser();
-        // print_r($kode);exit;
         return view('masterdata/pemilik/index', [
             'id_user' => $id_user,
             'kode' => $kode,

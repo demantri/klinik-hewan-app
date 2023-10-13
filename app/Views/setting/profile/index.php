@@ -14,12 +14,7 @@ Profile
             <div class="card profile-widget">
                 <div class="profile-widget-header">                     
                 <img alt="image" src="<?= $profile->img == null ? base_url('assets/img/avatar/avatar-1.png') : base_url('uploads/image/' . $profile->img )?>" class="rounded-circle profile-widget-picture">
-                <div class="profile-widget-items">
-                    <div class="profile-widget-item">
-                        <div class="profile-widget-item-label">Tgl Bergabung</div>
-                        <div class="profile-widget-item-value"><?= $profile->created_at ?></div>
-                    </div>
-                </div>
+                
                 </div>
                 <div class="profile-widget-description">
                     <div class="profile-widget-name">
@@ -41,7 +36,7 @@ Profile
                     </div>
                     <div class="card-body">
                         <input type="hidden" value="<?= $profile->id ?>" name="id">
-                        <input type="hidden" value="<?= $profile->id_pemilik ?>" name="id_pemilik">
+                        <input type="hidden" value="<?= $profile->id_ref_akun ?>" name="id_pemilik">
                         <div class="row">                               
                             <div class="form-group col-md-6 col-12">
                                 <label>Nama Lengkap</label>

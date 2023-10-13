@@ -55,6 +55,9 @@
                 <li>
                     <a class="nav-link" href="<?= base_url('rekam-medis/view') ?>">List Rekam Medis</a>
                 </li>
+                <li>
+                    <a class="nav-link" href="<?= base_url('rekam-medis/pembayaran') ?>">Pembayaran</a>
+                </li>
             </ul>
         </li>
         <li class="dropdown">

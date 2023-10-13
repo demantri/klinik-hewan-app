@@ -10,6 +10,15 @@ class CrudModel extends Model
         $this->db = db_connect();
     }
 
+    public function getDataAkun($jenis)
+    {
+        $data = $this->db->query("select a.*, b.role_name
+        from pemilik a 
+        join users b on a.id_user = b.id_user
+        where role_name = '$jenis';")->getResult();
+        return $data;
+    }
+
     public function getData($table)
     {
         $data = $this->db->table($table)
