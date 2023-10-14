@@ -15,7 +15,7 @@ User
 <?php endif; ?>
 
 <div class="row">
-    <div class="col-sm-8">
+    <div class="col-sm-7">
         <div class="card card-primary">
             <div class="card-body">
                 <table class="table table-bordered" id="table" style="width: 100%;">
@@ -59,34 +59,45 @@ User
             </div>
         </div>
     </div>
-    <div class="col-sm-4">
+    <div class="col-sm-5">
         <div class="card card-primary">
             <form action="<?= base_url('masterdata/user/simpan')?>" method="post">
                 <div class="card-header">
                     <h4>Form Tambah</h4>
                 </div>
                 <div class="card-body">
-                    <div class="form-group">
-                        <label>Username</label>
-                        <input type="text" name="username" id="username" class="form-control <?= $validation->hasError('username') ? 'is-invalid' : ''?>" placeholder="Masukan username" value="<?= set_value('username') ?>">
-                        <?php if ($validation->getError('username')) { ?>
-                            <div class="invalid-feedback">
-                                <?= $validation->getError('username'); ?>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label>Username</label>
+                                <input type="text" name="username" id="username" class="form-control <?= $validation->hasError('username') ? 'is-invalid' : ''?>" placeholder="Masukan username" value="<?= set_value('username') ?>">
+                                <?php if ($validation->getError('username')) { ?>
+                                    <div class="invalid-feedback">
+                                        <?= $validation->getError('username'); ?>
+                                    </div>
+                                <?php } ?>
                             </div>
-                        <?php } ?>
-                    </div>
-                    <div class="form-group">
-                        <label>Password</label>
-                        <input type="password" name="password" id="password" class="form-control <?= $validation->hasError('password') ? 'is-invalid' : ''?>" placeholder="Masukan password" value="<?= set_value('password') ?>">
-                        <?php if ($validation->getError('password')) { ?>
-                            <div class="invalid-feedback">
-                                <?= $validation->getError('password'); ?>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label>Password</label>
+                                <input type="password" name="password" id="password" class="form-control <?= $validation->hasError('password') ? 'is-invalid' : ''?>" placeholder="Masukan password" value="<?= set_value('password') ?>">
+                                <?php if ($validation->getError('password')) { ?>
+                                    <div class="invalid-feedback">
+                                        <?= $validation->getError('password'); ?>
+                                    </div>
+                                <?php } ?>
                             </div>
-                        <?php } ?>
+                        </div>
                     </div>
                     <div class="form-group">
                         <label>Role</label>
-                        <input type="text" name="role" id="role" class="form-control <?= $validation->hasError('role') ? 'is-invalid' : ''?>" placeholder="Masukan role" value="<?= set_value('role') ?>">
+                        <!-- <input type="text" name="role" id="role" class="form-control <?= $validation->hasError('role') ? 'is-invalid' : ''?>" placeholder="Masukan role" value="<?= set_value('role') ?>"> -->
+                        <select name="role" id="role" class="form-control <?= $validation->hasError('role') ? 'is-invalid' : ''?>">
+                            <option value="" disabled selected>- Pilih -</option>
+                            <option value="admin" <?= set_select('role', 'admin')?>>Admin</option>
+                            <option value="kasir" <?= set_select('role', 'kasir')?>>Kasir</option>
+                        </select>
                         <?php if ($validation->getError('role')) { ?>
                             <div class="invalid-feedback">
                                 <?= $validation->getError('role'); ?>
