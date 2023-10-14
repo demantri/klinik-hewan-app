@@ -36,15 +36,14 @@ Pembayaran
                                 <td><?= $no++ ?></td>
                                 <td><?= $row->kode_rm ?></td>
                                 <td><?= $row->id_trx ?></td>
-                                <td><?= $row->tgl_trx ?></td>
+                                <td><?= date('d-m-Y', strtotime($row->tgl_trx)) ?></td>
                                 <td><?= $row->nama_customer ?></td>
                                 <td><?= $row->nama_dokter ?></td>
-                                <td><?= $row->jasa_dokter ?></td>
-                                <td><?= $row->total_transaksi ?></td>
-                                <td><?= $row->grand_total ?></td>
+                                <td class="text-right"><?= number_format($row->jasa_dokter, 0, ',', '.') ?></td>
+                                <td class="text-right"><?= number_format($row->total_transaksi, 0, ',', '.') ?></td>
+                                <td class="text-right"><?= number_format($row->grand_total, 0, ',', '.') ?></td>
                                 <td>
                                     <?php if ($row->status == 0) { ?>
-                                        <!-- <a href="<?= base_url('rekam-medis/pembayaran/bayar/' . $row->id_trx )?>" class="btn btn-outline-success btn-sm" onclick="return confirm('Apakah anda yakin?')">Bayar</a> -->
                                         <button 
                                             class="btn-bayar btn btn-sm btn-outline-success"
                                             data-id="<?= $row->id_trx ?>"    

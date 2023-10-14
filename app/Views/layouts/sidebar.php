@@ -41,6 +41,16 @@
     
 
     <?php if (session()->get('role_name') == 'dokter') { ?>
+        <li class="dropdown">
+            <a class="nav-link has-dropdown" href="#">
+                <i class="fa-solid fa-house"></i> <span>Masterdata</span>
+            </a>
+            <ul class="dropdown-menu">
+                <li>
+                    <a class="nav-link" href="<?= base_url('masterdata/obat') ?>">Obat</a>
+                </li>
+            </ul>
+        </li>
         <li>
             <a class="nav-link" href="<?= base_url('daftar-booking') ?>"><i class="fa-solid fa-book"></i> <span>Data Booking</span></a>
         </li>
@@ -55,6 +65,26 @@
                 <li>
                     <a class="nav-link" href="<?= base_url('rekam-medis/view') ?>">List Rekam Medis</a>
                 </li>
+            </ul>
+        </li>
+        <li class="dropdown">
+            <a class="nav-link has-dropdown" href="#">
+                <i class="fa-solid fa-gear"></i> <span>Pengaturan</span>
+            </a>
+            <ul class="dropdown-menu">
+                <li>
+                    <a class="nav-link" href="<?= base_url('setting/profile') ?>">Profile</a>
+                </li>
+            </ul>
+        </li>
+    <?php } ?>
+
+    <?php if (session()->get('role_name') == 'kasir') { ?>
+        <li class="dropdown">
+            <a class="nav-link has-dropdown" href="#">
+                <i class="fa-solid fa-book"></i> <span>Rekam Medis</span>
+            </a>
+            <ul class="dropdown-menu">
                 <li>
                     <a class="nav-link" href="<?= base_url('rekam-medis/pembayaran') ?>">Pembayaran</a>
                 </li>

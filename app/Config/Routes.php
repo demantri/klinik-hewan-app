@@ -111,6 +111,7 @@ $routes->group('rekam-medis', ['filter' => 'auth'], function($routes) {
 $routes->group('setting', ['filter' => 'auth'], function($routes) {
     $routes->get('profile', 'Profile::index');
     $routes->add('profile/update', 'Profile::update');
+    $routes->add('profile/delete-img/(:any)', 'Profile::delete_image/$1');
 });
 
 

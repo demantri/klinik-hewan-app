@@ -29,7 +29,12 @@ class RekamMedis extends BaseController
         $kode = $this->code->createIDRM();
         // $pemilik = $this->db->query("select * from pemilik where is_register = 1")->getResult();
         $pemilik = $this->model->getDataAkun('customer');
-        $dokter = $this->model->getData('dokter');
+        // $dokter = $this->model->getData('dokter');
+        $id_user = session()->get('id_user');
+        $dokter = $this->db->query("select a.*, b.id_dokter, b.nama_lengkap
+        from users a
+        join dokter b on a.id_user = b.id_user
+        where b.id_user = '$id_user'")->getRow();
         
         $data = [
             'kode' => $kode,

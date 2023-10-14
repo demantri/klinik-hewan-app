@@ -18,7 +18,8 @@ class Booking extends BaseController
     public function index()
     {
         $kode = $this->code->kode_booking();
-        $pemilik = $this->db->query("select * from pemilik")->getResult();
+        $pemilik = $this->model->getDataAkun('customer');
+        // $pemilik = $this->db->query("select * from pemilik")->getResult();
         // dd($pemilik);
         return view('booking/index', [
             'kode' => $kode,

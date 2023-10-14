@@ -61,12 +61,8 @@ Input Rekam Medis
                                 </div>
                                 <div class="form-group">
                                     <label>Dokter</label>
-                                    <select name="dokter" id="dokter" class="form-control" required>
-                                        <option value="" selected disabled>Pilih Dokter</option>
-                                        <?php foreach ($dokter as $item) { ?>
-                                        <option value="<?= $item->id_dokter ?>"><?= $item->nama_lengkap ?></option>
-                                        <?php } ?>
-                                    </select>
+                                    <input type="hidden" class="form-control" name="dokter" id="dokter" value="<?= $dokter->id_dokter ?>" readonly>
+                                    <input type="text" class="form-control" value="<?= $dokter->nama_lengkap ?>" readonly>
                                 </div>
                                 <!-- <hr> -->
                                 <h4>
@@ -170,57 +166,6 @@ Input Rekam Medis
                 </form>
             </div>
         </div>
-        <!-- <div class="col-sm-6 col-md-6">
-            <div class="card card-primary">
-                <form action="<?= base_url('rekam-medis/simpan')?>" method="post">
-                    <div class="card-header">
-                        <h4>Obat/Tindakan</h4>
-                    </div>
-                    <div class="card-body">
-                        <div class="form-group">
-                            <div class="d-flex">
-                                <select name="" id="" class="form-control mr-2">
-                                    <option value="" selected disabled>Pilih Obat</option>
-                                </select>
-                                <input type="text" class="form-control mr-2" placeholder="Qty">
-                                <input type="text" class="form-control mr-2" placeholder="Harga">
-                                <a href=""
-                                class="btn btn-outline-success">
-                                <i class="fas fa-plus"></i>
-                                </a>
-                            </div>
-                            <div class="content-table mt-3">
-                                <table class="table table-hover table-striped table-bordered table-sm">
-                                    <thead>
-                                        <tr>
-                                            <th></th>
-                                            <th>Nama Obat</th>
-                                            <th>Qty</th>
-                                            <th>Harga</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>
-                                                <a href="">
-                                                    <i class="fas fa-trash"></i>
-                                                </a>
-                                            </td>
-                                            <td>1</td>
-                                            <td>1</td>
-                                            <td>1</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>        
-                    </div>
-                    <div class="card-footer text-right">
-                        <button class="btn btn-outline-primary" type="submit">Tambah</button>
-                    </div>
-                </form>
-            </div>
-        </div> -->
     </div>
 <?= $this->endSection();?>
 

@@ -13,8 +13,7 @@ Profile
         <div class="col-12 col-md-12 col-lg-5">
             <div class="card profile-widget">
                 <div class="profile-widget-header">                     
-                <img alt="image" src="<?= $profile->img == null ? base_url('assets/img/avatar/avatar-1.png') : base_url('uploads/image/' . $profile->img )?>" class="rounded-circle profile-widget-picture">
-                
+                    <img alt="image" src="<?= $profile->img == null ? base_url('assets/img/avatar/avatar-1.png') : base_url('uploads/image/' . $profile->img )?>" class="rounded-circle profile-widget-picture">
                 </div>
                 <div class="profile-widget-description">
                     <div class="profile-widget-name">
@@ -37,6 +36,7 @@ Profile
                     <div class="card-body">
                         <input type="hidden" value="<?= $profile->id ?>" name="id">
                         <input type="hidden" value="<?= $profile->id_ref_akun ?>" name="id_pemilik">
+                        <input type="hidden" value="<?= $profile->id_user?>" name="id_user">
                         <div class="row">                               
                             <div class="form-group col-md-6 col-12">
                                 <label>Nama Lengkap</label>
@@ -78,7 +78,10 @@ Profile
                         </div>
                     </div>
                     <div class="card-footer text-right">
-                        <button class="btn btn-primary" type="submit">Simpan</button>
+                        <button class="btn btn-primary" type="submit">Update Data</button>
+                        <?php if ($profile->img != null) { ?>
+                            <a href="<?= base_url('setting/profile/delete-img/' . $profile->id_user)?>" class="btn btn-outline-danger" onclick="return confirm('Apakah anda yakin?')">Hapus Foto</a>
+                        <?php } ?>
                     </div>
                 </form>
             </div>
