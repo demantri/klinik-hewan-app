@@ -71,10 +71,14 @@ class Pemilik extends BaseController
         ]);
 
         if (!$valid) {
-            $data['validation'] = $this->validator;
-            $data['pemilik'] = $this->model->getData('pemilik');
-            $data['kode'] = $this->code->createIDPemilik();
-            echo view('masterdata/pemilik/index', $data);
+            $data = [
+                'validation' => $this->validator,
+                'pemilik' => $this->model->getData('pemilik'),
+                'kode' => $this->code->createIDPemilik(),
+                'id_user' => $this->code->createIDUser(),
+            ];
+
+            return view('masterdata/pemilik/index', $data);
         } else {
             $id_user = $this->request->getVar('id_user');
             $id_pemilik = $this->request->getVar('id_pemilik');
