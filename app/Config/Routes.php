@@ -68,6 +68,12 @@ $routes->group('masterdata', ['filter' => 'auth'], function($routes) {
     $routes->add('kategori/update', 'Kategori::update');
     $routes->add('kategori/hapus/(:any)', 'Kategori::hapus/$1');
 
+    // RAS
+    $routes->get('ras', 'Ras::index');
+    $routes->add('ras/simpan', 'Ras::simpan');
+    $routes->add('ras/update', 'Ras::update');
+    $routes->add('ras/hapus/(:any)', 'Ras::hapus/$1');
+
     // masterdata dokter
     $routes->get('dokter', 'Dokter::index');
     $routes->add('dokter/simpan', 'Dokter::simpan');
@@ -103,6 +109,7 @@ $routes->group('rekam-medis', ['filter' => 'auth'], function($routes) {
     $routes->add('simpan', 'RekamMedis::simpan');
     $routes->add('cetak', 'RekamMedis::cetak');
     $routes->add('getDetail', 'RekamMedis::getDetail');
+    $routes->add('getObat', 'RekamMedis::getObat');
 
     $routes->get('pembayaran', 'Transaksi::index');
     $routes->add('pembayaran/bayar', 'Transaksi::bayar');

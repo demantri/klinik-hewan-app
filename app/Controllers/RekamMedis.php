@@ -18,12 +18,6 @@ class RekamMedis extends BaseController
         $this->db = db_connect();
     }
 
-    // protected $code;
-
-    // public function __construct(GenerateCode $code) {
-    //     $this->code = $code;
-    // }
-
     public function add($kode_booking = '')
     {
         $kode = $this->code->createIDRM();
@@ -35,12 +29,13 @@ class RekamMedis extends BaseController
         from users a
         join dokter b on a.id_user = b.id_user
         where b.id_user = '$id_user'")->getRow();
-        
+        $obat = $this->model->getData('obat');
         $data = [
             'kode' => $kode,
             'pemilik' => $pemilik,
             'dokter' => $dokter,
-            'kode_booking' => $kode_booking
+            'kode_booking' => $kode_booking,
+            'obat' => $obat,
         ];
         return view('rekam-medis/add', $data);
     }
@@ -54,29 +49,6 @@ class RekamMedis extends BaseController
 
     public function simpan()
     {
-        // $id_rekam_medis = $this->request->getVar();
-        // $tanggal = $this->request->getVar();
-        // $pemilik = $this->request->getVar();
-        // $peliharaan = $this->request->getVar();
-        // $dokter = $this->request->getVar();
-        // $jasa_dokter = $this->request->getVar();
-        // $total_transaksi = $this->request->getVar();
-        // $grandtotal = $this->request->getVar();
-        // $frekuensi_pulsus = $this->request->getVar();
-        // $temperatur_rektal = $this->request->getVar();
-        // $frekuensi_nafas = $this->request->getVar();
-        // $berat_badan = $this->request->getVar();
-        // $kondisi_umum = $this->request->getVar();
-        // $kulit_bulu = $this->request->getVar();
-        // $membran_mukosa = $this->request->getVar();
-        // $kelenjar_limfa = $this->request->getVar();
-        // $muskuloskeletal = $this->request->getVar();
-        // $sistem_sirkulasi = $this->request->getVar();
-        // $sistem_respirasi = $this->request->getVar();
-        // $sistem_digesti = $this->request->getVar();
-        // $sistem_urogenital = $this->request->getVar();
-        // $sistem_saraf = $this->request->getVar();
-        // $mata_telinga = $this->request->getVar();
         $data = $this->request->getVar();
 
         $kode_booking = $data['kode_booking'];
@@ -110,9 +82,6 @@ class RekamMedis extends BaseController
             'sistem_urogenital' => $data['sistem_urogenital'],
             'sistem_saraf' => $data['sistem_saraf'],
             'mata_telinga' => $data['mata_telinga'],
-            'jasa_dokter' => $data['jasa_dokter'],
-            'total_transaksi' => $data['total_transaksi'],
-            'grand_total' => $data['grandtotal'],
             'kode_booking' => $kode_booking,
         ];
         $this->db->table('rekam_medis')
@@ -120,19 +89,12 @@ class RekamMedis extends BaseController
 
         // insert table transaksi utk pembayaran
         $id_trx = $this->code->createTrxCode();
-        
-        $dataTrx = [
-            'kode_rm' => $data['id_rekam_medis'],
-            'id_trx' => $id_trx,
-            'tgl_trx' => $data['tanggal'],
-            'id_customer' => $data['pemilik'],
-            'id_dokter' => $data['dokter'],
-            'jasa_dokter' => $data['jasa_dokter'],
-            'total_transaksi' => $data['total_transaksi'],
-            'grand_total' => $data['grandtotal'],
-            // 'status' => $data['id_rekam_medis'],
-        ];
-        $this->trx->createTrx($dataTrx);
+        // insert untuk tabel transaksi
+        $this->trx->createTrx($data, $id_trx);
+
+        // insert untuk pencatatan obat
+        $this->trx->insertObat($data);
+        $this->trx->updateStokObat($data);
 
         return $this->response->setJSON([
             'msg' => 'Data berhasil disimpan'
@@ -148,12 +110,16 @@ class RekamMedis extends BaseController
             d.spesies,
             d.ras,
             d.warna,
-            d.postur
+            d.postur,
+            e.jasa_dokter,
+            e.total_transaksi,
+            e.grand_total
         FROM rekam_medis a
         JOIN pemilik b ON a.id_pemilik = b.id_pemilik
         JOIN dokter c ON a.id_dokter = c.id_dokter
         JOIN pendaftaran d ON a.id_pemilik = d.id_pemilik
-        ORDER BY a.id DESC")->getResult();
+        JOIN transaksi e ON a.id_rekam_medis = e.kode_rm
+        ORDER BY a.id DESC;")->getResult();
 
         $data = [
             'list' => $list
@@ -224,6 +190,15 @@ class RekamMedis extends BaseController
         JOIN pendaftaran d ON a.id_pemilik = d.id_pemilik
         WHERE a.id_rekam_medis = '$id_rm'")->getRow();
 
+        return $this->response->setJSON($data);
+    }
+
+    public function getObat()
+    {
+        $id_obat = $this->request->getVar('id_obat');
+        
+        $data = $this->db->query("select * from obat where id_obat = '$id_obat'")->getRow();
+        
         return $this->response->setJSON($data);
     }
 }

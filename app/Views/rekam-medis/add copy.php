@@ -76,13 +76,12 @@ Input Rekam Medis
                                             <div class="wrapper_obat">
                                                 <div class="row">
                                                     <div class="col-lg-7">
-                                                        <select name="obat[]" id="select_obat_1" class="form-control obat" onchange="inputHargaObat('select_obat_1', 'obat_1')" required>
+                                                        <select name="obat[]" class="form-control obat" required>
                                                             <option value="" selected disabled>Pilih</option>
                                                             <?php foreach ($obat as $item) { ?>
                                                             <option value="<?= $item->id_obat ?>"><?= $item->nama_obat ?></option>
                                                             <?php } ?>
                                                         </select>
-                                                        <input type="hidden" class="harga_obat" name="harga_obat[]" id="obat_1">
                                                     </div>
                                                     <div class="col-lg-3">
                                                         <input type="number" name="qty[]" class="form-control qty" min="1" value="1" placeholder="Masukan QTY">
@@ -95,6 +94,29 @@ Input Rekam Medis
                                                 </div>
                                             </div>
                                         </div>
+                                    </div>
+                                </div>
+
+                                <!-- tidak dimunculkan karena ini gak butuh dimunculkan untuk nominal2 selain kasir -->
+                                <div class="content_pembayaran d-none">
+                                    <h4>
+                                        Pembayaran
+                                    </h4>
+                                    <hr>
+                                    <div class="form-group">
+                                        <label>Jasa Dokter</label>
+                                        <input type="text" class="form-control" value="<?= number_format('150000')?>" readonly>
+                                        <input type="hidden" value="150000" name="jasa_dokter" id="jasa_dokter">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Total Transaksi</label>
+                                        <input type="text" class="form-control" value="<?= number_format('200000')?>" readonly>
+                                        <input type="hidden" value="200000" name="total_transaksi" id="total_transaksi">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Grand Total</label>
+                                        <input type="text" class="form-control" value="<?= number_format('350000')?>" readonly>
+                                        <input type="hidden" value="350000" name="grandtotal" id="grandtotal">
                                     </div>
                                 </div>
                             </div>
@@ -167,9 +189,6 @@ Input Rekam Medis
                                             <label>Mata Telinga</label>
                                             <input type="text" value="0" name="mata_telinga" id="mata_telinga" class="form-control" required>
                                         </div>
-                                        <input type="hidden" value="150000" name="jasa_dokter" id="jasa_dokter">
-                                        <!-- <input type="text" value="200000" name="total_transaksi" id="total_transaksi"> -->
-                                        <!-- <input type="text" value="350000" name="grandtotal" id="grandtotal"> -->
                                     </div>
                                 </div>
                             </div>

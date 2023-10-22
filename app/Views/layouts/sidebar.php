@@ -13,8 +13,14 @@
                 <li>
                     <a class="nav-link" href="<?= base_url('masterdata/pemilik') ?>">Pemilik</a>
                 </li>
-                <li>
+                <!-- <li>
                     <a class="nav-link" href="<?= base_url('masterdata/kategori') ?>">Kategori</a>
+                </li> -->
+                <li>
+                    <a class="nav-link" href="<?= base_url('masterdata/spesies') ?>">Spesies</a>
+                </li>
+                <li>
+                    <a class="nav-link" href="<?= base_url('masterdata/ras') ?>">Ras</a>
                 </li>
                 <li>
                     <a class="nav-link" href="<?= base_url('masterdata/obat') ?>">Obat</a>

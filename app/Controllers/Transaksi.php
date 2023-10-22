@@ -2,8 +2,9 @@
 
 namespace App\Controllers;
 
-use App\Controllers\BaseController;
+use App\Models\GenerateCode;
 use App\Models\TransaksiModel;
+use App\Controllers\BaseController;
 
 class Transaksi extends BaseController
 {
