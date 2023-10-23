@@ -26,8 +26,8 @@ class Pendaftaran extends BaseController
     public function form_add()
     {
         $kode = $this->code->createIDPendaftaran();
-        $spesies = $this->model->getSpesies();
-        $ras = $this->model->getRas();
+        $spesies = $this->model->getData('spesies');
+        $ras = $this->model->getData('ras');
         $pemilik = $this->model->getDataAkun('customer');
         $data = [
             'kode' => $kode,
@@ -40,9 +40,9 @@ class Pendaftaran extends BaseController
 
     public function form_edit($id)
     {
-        $spesies = $this->model->getSpesies();
-        $ras = $this->model->getRas();
-        $pemilik = $this->model->getData('pemilik');
+        $spesies = $this->model->getData('spesies');
+        $ras = $this->model->getData('ras');
+        $pemilik = $this->model->getDataAkun('customer');
         $pendaftaran = $this->model->getPeliharaanByID($id);
         $data = [
             'spesies' => $spesies,
@@ -123,9 +123,9 @@ class Pendaftaran extends BaseController
 
         if (!$valid) {
             $kode = $this->code->createIDPendaftaran();
-            $spesies = $this->model->getSpesies();
-            $ras = $this->model->getRas();
-            $pemilik = $this->model->getData('pemilik');
+            $spesies = $this->model->getData('spesies');
+            $ras = $this->model->getData('ras');
+            $pemilik = $this->model->getDataAkun('customer');
             $data = [
                 'kode' => $kode,
                 'spesies' => $spesies,
@@ -133,7 +133,7 @@ class Pendaftaran extends BaseController
                 'pemilik' => $pemilik,
             ];
             $data['validation'] = $this->validator;
-            echo view('pendaftaran/add', $data);
+            return view('pendaftaran/add', $data);
         } else {
             $id_pendaftaran = $this->request->getVar('id_pendaftaran');
             $pemilik = $this->request->getVar('pemilik');
@@ -220,11 +220,9 @@ class Pendaftaran extends BaseController
         ]);
 
         if (!$valid) {
-            $spesies = $this->model->getSpesies();
-            $ras = $this->model->getRas();
-            $pemilik = $this->model->getData('pemilik');
-            // $uri = new \CodeIgniter\HTTP\URI();
-            // $id = $uri->getSegment(3);
+            $spesies = $this->model->getData('spesies');
+            $ras = $this->model->getData('ras');
+            $pemilik = $this->model->getDataAkun('customer');
             $pendaftaran = $this->model->getPeliharaanByID($id);
             $data = [
                 'spesies' => $spesies,
@@ -233,7 +231,6 @@ class Pendaftaran extends BaseController
                 'pendaftaran' => $pendaftaran,
             ];
             $data['validation'] = $this->validator;
-            // echo view("pendaftaran/form/edit/" , $data);
             return view('pendaftaran/update', $data);
         } else {
             $id_pendaftaran = $this->request->getVar('id_pendaftaran');

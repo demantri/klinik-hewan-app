@@ -58,6 +58,21 @@ class GenerateCode extends Model
         return $kd;
     }
 
+    public function id_spesies()
+    {
+        $query = $this->db->query("select right(id_spesies, 3) as kode from spesies order by id_spesies desc limit 1");
+
+        if (count($query->getResult()) <> 0) { // cek kondisi, kalau hasil data nya tidak = 0.
+            $data = $query->getRow();
+            $kode = intval($data->kode) + 1;
+        } else {
+            $kode = 1;
+        }
+        $kodemax = str_pad($kode, 3, "0", STR_PAD_LEFT);
+        $kd = "SP-" . $kodemax;
+        return $kd;
+    }
+
     public function createIDPendaftaran()
     {
         $query = $this->db->query("select right(id_pendaftaran, 4) as kode from pendaftaran order by id desc limit 1");

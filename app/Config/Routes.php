@@ -74,6 +74,12 @@ $routes->group('masterdata', ['filter' => 'auth'], function($routes) {
     $routes->add('ras/update', 'Ras::update');
     $routes->add('ras/hapus/(:any)', 'Ras::hapus/$1');
 
+    // spesies
+    $routes->get('spesies', 'Spesies::index');
+    $routes->add('spesies/simpan', 'Spesies::simpan');
+    $routes->add('spesies/update', 'Spesies::update');
+    $routes->add('spesies/hapus/(:any)', 'Spesies::hapus/$1');
+
     // masterdata dokter
     $routes->get('dokter', 'Dokter::index');
     $routes->add('dokter/simpan', 'Dokter::simpan');
